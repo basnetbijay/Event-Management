@@ -14,6 +14,9 @@
         <input type="password" id="password" name="password" required><br><br>
 
         <input type="submit" value="Login">
+
+        <p>Don't have an account?</p><br>
+        <a href="signup.php">Sign Up</a>
     </form>
 </body>
 </html>

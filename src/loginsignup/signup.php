@@ -19,7 +19,10 @@
         <label for="last_name">Last Name:</label><br>
         <input type="text" id="last_name" name="last_name" required><br><br>
 
-        <input type="submit" value="Register">
+        <input type="submit" value="Register"><br><br>
+        <p>Have an account?</p><br>
+        <a href="login.php">Log In</a>
+
     </form>
 </body>
 </html>

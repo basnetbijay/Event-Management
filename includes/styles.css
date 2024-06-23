@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    padding: 10px 20px;
+    color: white;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header .logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.header .search-bar {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.header .search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+.header .sell-button {
+    margin-right: 10px;
+}
+
+.header .sell-button a {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.header .sell-button a:hover {
+    background-color: #FF8C00;
+}
+
+.header .sign-up-btn a {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.header .sign-up-btn a:hover {
+    background-color: #45a049;
+}
