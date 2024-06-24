@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Header</title>
+    <title>ThriftIt</title>
     <link rel="stylesheet" type="text/css" href="/includes/styles.css">
 </head>
 <body>

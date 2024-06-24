@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     if (password_verify($password, $password_hash)) {
         session_start();
+        $_SESSION['is_logged_in'] = true;
         $_SESSION['user_id'] = $user_id;
         $_SESSION['email'] = $email;
         $_SESSION['first_name'] = $first_name;
