@@ -3,6 +3,7 @@ require '../db/db.php';
 require '../includes/header.php';
 require '../utils/auth.php';
 session_start();
+print_r($_SESSION) ;
 if ($_SESSION['is_logged_in']) {
     echo 'you are logged in';
 }else{
