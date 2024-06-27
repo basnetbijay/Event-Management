@@ -29,7 +29,7 @@ body {
     max-width: 900px;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.571);
     border-radius: 8px;
 }
 
@@ -56,7 +56,7 @@ body {
 .info-image {
     width: auto;
     max-width: 500px; 
-    height: 350px;
+    height: 375px;
     object-fit: contain;
 }
 
@@ -99,7 +99,8 @@ body {
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid #000;
-    transition: all 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+
 }
 
 .btn:hover {
