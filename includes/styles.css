@@ -1,63 +1,82 @@
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
 }
 
 .header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background-color: #333;
-    padding: 10px 20px;
-    color: white;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
 }
 
-.header .logo {
+.logo a {
+    color: #fff;
+    text-decoration: none;
     font-size: 24px;
     font-weight: bold;
 }
 
-.header .logo a {
-    color: white;
-    text-decoration: none;
+.search-bar form {
+    display: flex;
 }
 
-.header .search-bar {
-    flex: 1;
-    margin: 0 20px;
-}
-
-.header .search-bar input[type="text"] {
-    width: 100%;
-    padding: 8px;
+.search-bar input[type="text"] {
+    padding: 10px;
     border: none;
     border-radius: 4px;
+    width: 600px; /* Increased width for the search bar */
 }
 
-.header .sell-button {
-    margin-right: 10px;
+.nav-links {
+    display: flex;
+    gap: 20px;
 }
 
-.header .sell-button a {
-    background-color: #FFA500;
-    color: white;
-    padding: 10px 20px;
+.nav-link {
     text-decoration: none;
-    border-radius: 4px;
-}
-
-.header .sell-button a:hover {
-    background-color: #FF8C00;
-}
-
-.header .sign-up-btn a {
-    background-color: #4CAF50;
-    color: white;
     padding: 10px 20px;
-    text-decoration: none;
     border-radius: 4px;
+    transition: all 0.3s;
 }
 
-.header .sign-up-btn a:hover {
-    background-color: #45a049;
+/* Sell for Free button */
+.nav-link.sell {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #fff;
+    position: relative; /* Added position relative for pseudo-element positioning */
+}
+
+
+.nav-link.sell:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+
+/* Sign Up button */
+.nav-link.signup {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.nav-link.signup:hover {
+    background-color: #fff;
+    color: #000;
+}
+.divider {
+    font-size: 30px;
+    color: #fff; 
+    margin: 0 10px; 
 }

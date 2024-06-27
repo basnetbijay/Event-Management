@@ -15,11 +15,10 @@
                 <input type="text" name="query" placeholder="Search for items...">
             </form>
         </div>
-        <div class="sell-button">
-            <a href="sell.php">Sell for Free</a>
-        </div>
-        <div class="sign-up-btn">
-            <a href="/src/loginsignup/signup.php">Sign Up</a>
+        <div class="nav-links">
+            <a href="sell.php" class="nav-link sell">Sell for Free</a>
+            <span class="divider">|</span>
+            <a href="/src/loginsignup/signup.php" class="nav-link signup">Sign Up</a>
         </div>
     </div>
 </body>
