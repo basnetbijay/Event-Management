@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("INSERT INTO Users (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $email, $password, $first_name, $last_name);
     if ($stmt->execute()) {
+        header("Location: ../index.php");
         echo "New record created successfully";
     } else {
         echo "Error: " . $stmt->error;
