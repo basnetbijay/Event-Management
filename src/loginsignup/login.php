@@ -16,6 +16,7 @@
                 <div class="login-header">
                     <h2>Login</h2>
                 </div>
+                
                 <form action="login_process.php" method="post">
                     <div class="textbox">
                         <input type="email" id="email" name="email" placeholder="Email" required>
@@ -24,6 +25,11 @@
                         <input type="password" id="password" name="password" placeholder="Password" required>
                     </div>
                     <button type="submit" class="btn">Login</button>
+                    <?php
+                        if (isset($_GET['error'])) {
+                        echo '<div class="error-message">' . htmlspecialchars($_GET['error']) . '</div>';
+                        }
+                    ?>
                     <div class="links">
                         <p>Don't have an account? </p><a href="signup.php">Sign Up</a>
                     </div>
