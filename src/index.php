@@ -10,6 +10,16 @@ if ($_SESSION['is_logged_in']) {
     echo 'you are not logged in';
 }
 ?>
-<h1>hello this is home page</h1>
-<p>add banner here?</p>
-<a href="../src/loginsignup/logout.php">Logout</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThriftIt - Home</title>
+</head>
+<body>
+    <h1>hello this is home page</h1>
+    <p>add banner here?</p>
+    <a href="../src/loginsignup/logout.php">Logout</a>
+</body>
+</html>

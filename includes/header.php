@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ThriftIt</title>
     <link rel="stylesheet" type="text/css" href="/includes/styles.css">
 </head>
 <body>
     <div class="header">
         <div class="logo">
-            <a href="index.php">Thrift Store</a>
+            <a href="/src/index.php">
+                <img src="/images/app/ThriftIt.svg" alt="Thrift Store Logo">
+            </a>
         </div>
         <div class="search-bar">
             <form action="search.php" method="get">

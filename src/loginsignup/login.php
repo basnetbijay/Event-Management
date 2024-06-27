@@ -14,7 +14,7 @@ require "../../includes/header.php";
     <div class="container">
         <div class="content-box">
             <div class="info-box">
-                <img src="path/to/your/image.jpg" alt="loginsignupbanner" class="info-image">
+                <img src="/images/app/loginbanner.png" alt="loginsignupbanner" class="info-image">
                 <p class="info-text">Welcome to ThriftIt</p>
             </div>
             <div class="login-box">

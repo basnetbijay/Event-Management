@@ -5,54 +5,89 @@
     font-family: Arial, sans-serif;
 }
 
+
+body {
+    background: url('/images/app/backgroundlogin.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+}
+
 .bodylog {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
 }
 
 .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    border-radius: 8px;
 }
 
 .content-box {
     display: flex;
     width: 100%;
+    justify-content: space-between; 
+    align-items: center; 
 }
 
-.login-box, .info-box {
+.info-box, .login-box {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     padding: 20px;
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 20px;
+.info-box {
+    margin-right: 20px;
+}
+
+.info-image {
+    width: auto;
+    max-width: 500px; 
+    height: 350px;
+    object-fit: contain;
+}
+
+.info-text {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.login-box {
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
 }
 
 .login-header h2 {
+    margin-bottom: 20px;
     color: #333;
 }
 
 .textbox {
-    width: 100%;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .textbox input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .btn {
@@ -61,49 +96,38 @@
     background-color: #000;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     border: 1px solid #000;
+    transition: all 0.3s;
 }
 
 .btn:hover {
     background-color: #fff;
     color: #000;
-    border: 1px solid #000;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
 }
 
 .links {
-    text-align: center;
     margin-top: 15px;
+    text-align: center;
+}
+
+.links p {
+    display: inline;
+    margin-right: 5px;
 }
 
 .links a {
     color: #007bff;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .links a:hover {
     text-decoration: underline;
-}
-
-.info-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.info-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-}
-
-.info-text {
-    color: #333;
-    font-size: 16px;
-}
-.error-message{
-    color: red;
 }
