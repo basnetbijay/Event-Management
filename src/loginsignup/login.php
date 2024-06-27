@@ -1,3 +1,7 @@
+<?php
+require "../../includes/header.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="bodylog">
     <div class="container">
         <div class="content-box">
             <div class="info-box">
@@ -37,6 +42,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 </body>
 </html>
 

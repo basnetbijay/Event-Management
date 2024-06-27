@@ -5,7 +5,7 @@
     font-family: Arial, sans-serif;
 }
 
-body {
+.bodylog {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,15 +58,18 @@ body {
 .btn {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
-    border: none;
+    background-color: #000;
     color: #fff;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid #000;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
 }
 
 .links {
