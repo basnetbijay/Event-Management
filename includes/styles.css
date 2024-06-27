@@ -11,6 +11,9 @@ body {
 }
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -82,4 +85,80 @@ body {
     font-size: 30px;
     color: #fff; 
     margin: 0 10px; 
+}
+
+
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-list {
+    flex: 1;
+    padding: 20px;
+    position: sticky;
+}
+
+.category-list h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.category-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category-list li {
+    margin-bottom: 10px;
+}
+
+.category-list a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.category-list a:hover {
+    background-color: #4f515228;
+}
+
+.category-list .icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    margin-right: 10px; /* Adjust spacing between icon and text */
+}
+
+.content {
+    flex: 3;
+    padding: 20px;
+}
+
+.content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.content a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.content a:hover {
+    text-decoration: underline;
 }
