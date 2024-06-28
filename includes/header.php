@@ -25,7 +25,11 @@ if (session_status() == PHP_SESSION_NONE) {
             </form>
         </div>
         <div class="nav-links">
-            <a href="sell.php" class="nav-link sell">Sell for Free</a>
+            <?php if (isLoggedIn()): ?>
+                <a href="sell.php" class="nav-link sell">Sell for Free</a>
+            <?php else: ?>
+                <a href="/src/loginsignup/login.php" class="nav-link sell">Sell for Free</a>
+            <?php endif;?>
             <span class="divider">|</span>
             <?php if (isLoggedIn()): ?>
                 <a href="/src/profile.php" class="nav-link profile">
@@ -33,7 +37,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 </a>
             <?php else: ?>
                 <a href="/src/loginsignup/signup.php" class="nav-link signup">Sign Up</a>
-            <?php endif; ?>
+            <?php endif;?>
         </div>
     </div>
 </body>

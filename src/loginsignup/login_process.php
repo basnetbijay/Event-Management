@@ -13,12 +13,10 @@ if (isset($_POST['email'])) {
         $password_hash=$user['password_hash'];
     }
     else {
-        // Redirect back to the login page with an error message
         $error = "Invalid username or password";
         header("Location: login.php?error=" . urlencode($error));
     }
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -32,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php");
         exit();
     } else {
-        // Redirect back to the login page with an error message
         $error = "Invalid username or password";
         header("Location: login.php?error=" . urlencode($error));
     }
