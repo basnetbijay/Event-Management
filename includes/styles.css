@@ -49,10 +49,19 @@ body {
 }
 
 .nav-link {
-    text-decoration: none;
+    margin-left: 10px;
     padding: 10px 20px;
-    border-radius: 4px;
-    transition: all 0.3s;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Ensure the buttons have a consistent height */
+    box-sizing: border-box;
+
 }
 
 /* Sell for Free button */
@@ -85,6 +94,11 @@ body {
     font-size: 30px;
     color: #fff; 
     margin: 0 10px; 
+}
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
 }
 
 
@@ -129,6 +143,11 @@ body {
 
 .category-list a:hover {
     background-color: #4f515228;
+}
+
+.category-list a:before {
+    content: '🛒'; 
+    margin-right: 10px;
 }
 
 .category-list .icon {

@@ -1,8 +1,10 @@
 <?php
-require '../db/db.php';
-require '../includes/header.php';
-require '../utils/auth.php';
-session_start();
+require_once '../db/db.php';
+require_once '../includes/header.php';
+require_once '../utils/auth.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>

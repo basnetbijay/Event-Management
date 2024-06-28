@@ -1,3 +1,11 @@
+<?php
+require_once '/ShwetaProgramming/Thrift_It/db/db.php';
+require_once '/ShwetaProgramming/Thrift_It/utils/auth.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +27,13 @@
         <div class="nav-links">
             <a href="sell.php" class="nav-link sell">Sell for Free</a>
             <span class="divider">|</span>
-            <a href="/src/loginsignup/signup.php" class="nav-link signup">Sign Up</a>
+            <?php if (isLoggedIn()): ?>
+                <a href="/src/profile.php" class="nav-link profile">
+                    <img src="/images/app/usericon.svg" alt="User Profile Icon" class="profile-icon">
+                </a>
+            <?php else: ?>
+                <a href="/src/loginsignup/signup.php" class="nav-link signup">Sign Up</a>
+            <?php endif; ?>
         </div>
     </div>
 </body>
