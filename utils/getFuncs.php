@@ -12,4 +12,36 @@ function getUser($conn, $email){
         }
     }
 }
+function getUserListings($conn, $user_id) {
+    $listings = array();
+
+    // Prepare SQL query
+    $sql = "SELECT * FROM Items WHERE listed_by = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if ($stmt === false) {
+        echo mysqli_error($conn);
+        return null;
+    }
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+
+    // Execute query
+    if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Fetch all rows as an associative array
+        while ($row = mysqli_fetch_assoc($result)) {
+            $listings[] = $row;
+        }
+
+        mysqli_stmt_close($stmt);
+        return $listings;
+    } else {
+        echo "Error executing query: " . mysqli_error($conn);
+        mysqli_stmt_close($stmt);
+        return null;
+    }
+}
 ?>

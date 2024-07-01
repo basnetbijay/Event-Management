@@ -15,22 +15,11 @@ if (!isLoggedIn()) {
 $conn = getDB();
 $user = getUser($conn, $_SESSION['email']);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
+// Fetch user's listings
+$listings = getUserListings($conn, $user['user_id']); 
 
-    $update_query = $conn->prepare("UPDATE Users SET email = ?, first_name = ?, last_name = ? WHERE user_id = ?");
-    $update_query->bind_param("sssi", $email, $first_name, $last_name, $user['user_id']);
-
-    if ($update_query->execute()) {
-        $_SESSION['email'] = $email; // Update the email in session
-        header("Location: profile.php?success=1");
-        exit();
-    } else {
-        $error = "Failed to update information.";
-    }
-}
+// Handle different views based on sidebar selection
+$view = isset($_GET['view']) ? $_GET['view'] : 'profile'; 
 
 $conn->close();
 ?>
@@ -42,33 +31,51 @@ $conn->close();
     <title>Profile - ThriftIt</title>
     <link rel="stylesheet" type="text/css" href="/includes/styles.css">
     <style>
-        body {
-            background: url('/images/app/backgroundlogin.jpg') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-            overflow: hidden;
-            height: 100vh;
+        .sidebar {
+            width: 250px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .listing {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body>
     <?php require_once '../includes/header.php'; ?>
-    <div class="profile-container">
-        <div class="profile-box">
-            <h2>Your Profile</h2>
-            <?php if (isset($error)): ?>
-                <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
-            <?php endif; ?>
-            <?php if (isset($_GET['success'])): ?>
-                <div class="success-message">Profile updated successfully.</div>
-            <?php endif; ?>
-            <div class="profile-content">
-                <div class="profile-picture">
-                    <img src="/images/app/default-profile.svg" alt="User Profile Picture">
-                    <button class="btn upload-btn">Upload New Picture</button>
-                </div>
-                <div class="profile-form">
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="?view=profile">My Profile</a></li>
+            <li><a href="?view=my_listings">My Listings</a></li>
+            <ul>
+                <li><a href="?view=active_listings">Active Listings</a></li>
+                <li><a href="?view=pending_listings">Pending Listings</a></li>
+                <li><a href="?view=rejected_listings">Rejected Listings</a></li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="content">
+        <?php if ($view === 'profile'): ?>
+            <div class="profile-container">
+                <div class="profile-box">
+                    <h2>Your Profile</h2>
                     <form action="profile.php" method="post">
                         <div class="textbox">
                             <label for="email">Email:</label>
@@ -87,7 +94,27 @@ $conn->close();
                     <a href="/src/loginsignup/logout.php" class="logout-btn">Logout</a>
                 </div>
             </div>
-        </div>
+        <?php elseif ($view === 'my_listings'): ?>
+            <h2>My Listings</h2>
+            <?php if (!empty($listings)): ?>
+                <?php foreach ($listings as $listing): ?>
+                    <div class="listing">
+                        <h3><?php echo htmlspecialchars($listing['item_name']); ?></h3>
+                        <p><?php echo htmlspecialchars($listing['item_description']); ?></p>
+                        <p>Condition: <?php echo htmlspecialchars($listing['item_condition']); ?></p>
+                        <p>Price: <?php echo htmlspecialchars($listing['price']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No listings found.</p>
+            <?php endif; ?>
+        <?php elseif ($view === 'active_listings'): ?>
+            <!-- Display active listings -->
+        <?php elseif ($view === 'pending_listings'): ?>
+            <!-- Display pending listings -->
+        <?php elseif ($view === 'rejected_listings'): ?>
+            <!-- Display rejected listings -->
+        <?php endif; ?>
     </div>
 </body>
 </html>

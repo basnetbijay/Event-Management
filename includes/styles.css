@@ -304,3 +304,38 @@ body {
 .logout-btn:hover {
     background-color: #cc0000;
 }
+
+
+.listcontainer{
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.571);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.textbox textarea {
+    height: 200px;
+    width: 100%;
+    resize: vertical;
+}
+
+.textbox select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.textbox-group {
+    display: flex;
+    gap: 10px;
+}
+
+.textbox-group .textbox {
+    flex: 1; 
+}
