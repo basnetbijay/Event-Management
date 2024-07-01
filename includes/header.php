@@ -26,7 +26,7 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
         <div class="nav-links">
             <?php if (isLoggedIn()): ?>
-                <a href="sell.php" class="nav-link sell">Sell for Free</a>
+                <a href="../src/listProduct.php" class="nav-link sell">Sell for Free</a>
             <?php else: ?>
                 <a href="/src/loginsignup/login.php" class="nav-link sell">Sell for Free</a>
             <?php endif;?>
