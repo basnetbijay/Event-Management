@@ -40,7 +40,7 @@ $conn->close();
     <link rel="stylesheet" href="../includes/styles.css"> 
 </head>
 <body>
-    <div class="container">
+    <div class="dashcontainer">
         <div class="dashboard-list">
             <h3>Dashboard</h3>
             <ul>
@@ -59,6 +59,12 @@ $conn->close();
             <div class="profile-container">
                 <div class="profile-box">
                     <h2>Your Profile</h2>
+                    <?php if (isset($error)): ?>
+                        <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+                    <?php endif; ?>
+                    <?php if (isset($_GET['success'])): ?>
+                        <div class="success-message">Profile updated successfully.</div>
+                    <?php endif; ?>
                     <form action="updateProfile.php" method="post">
                         <div class="textbox">
                             <label for="email">Email:</label>
