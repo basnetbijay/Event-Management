@@ -32,7 +32,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php endif;?>
             <span class="divider">|</span>
             <?php if (isLoggedIn()): ?>
-                <a href="/src/profile.php" class="nav-link profile">
+                <a href="/src/profile.php?view=profile" class="nav-link profile">
                     <img src="/images/app/usericon.svg" alt="User Profile Icon" class="profile-icon">
                 </a>
             <?php else: ?>
