@@ -2,6 +2,7 @@
 require_once '../db/db.php';
 require_once '../utils/auth.php';
 require_once '../utils/getFuncs.php';
+require_once '../includes/header.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -56,8 +57,6 @@ $conn->close();
 </head>
 
 <body>
-    <?php require_once '../includes/header.php'; ?>
-
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
