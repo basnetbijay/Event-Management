@@ -206,7 +206,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 50vh;
     
 }
 
@@ -394,7 +394,7 @@ body {
 .dashcontainer {
     display: flex;
     max-width: 1200px;
-    height: max-content;
+    height: 80vh;
     margin: 20px auto;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
