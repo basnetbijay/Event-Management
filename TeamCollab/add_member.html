@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Members</h1>
+        <form id="addMemberForm">
+            <select id="event_id" name="event_id" required>
+                <option value="" disabled selected>Select Event</option>
+                <!-- Options will be populated here -->
+            </select>
+            
+            <input type="email" name="user_email" placeholder="Member Email" required>
+            
+            <!-- Role Dropdown -->
+            <select name="role" required>
+                <option value="" disabled selected>Role</option>
+                <option value="Manager">Manager</option>
+                <option value="Assistant">Assistant</option>
+                <option value="Member">Member</option>
+            </select>
+            
+            
+            <textarea name="responsibilities" placeholder="Responsibilities" rows="4" required></textarea>
+            
+            <!-- Chat button -->
+            <button type="button">
+                <a href="http://localhost:8080/eventMgmt/TeamCollab/team_collaboration.php" style="text-decoration: none; color: white;">Chat</a>
+            </button>
+            
+            <!-- Add Member Button -->
+            <button type="submit">Add Member</button>
+        </form>
+        
+        <h2>Current Team Members</h2>
+        <ul id="teamList"></ul>
+    </div>
+
+    <script>
+        // Get event ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const event_id = urlParams.get('event_id');
+        document.getElementById('event_id').value = event_id;
+
+        // Handle form submission
+        document.getElementById('addMemberForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            let formData = new FormData(this);
+            formData.append('event_id', event_id); // Ensure event_id is included in the formData
+            
+            fetch('add_member.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Display success or error message
+                fetchTeamMembers(); // Update the team list after adding a member
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        // Fetch and display team members for the event
+        function fetchTeamMembers() {
+            fetch(`add_member.php?event_id=${event_id}`)
+            .then(response => response.json())
+            .then(data => {
+                let teamList = document.getElementById('teamList');
+                teamList.innerHTML = ''; // Clear existing list
+                
+                if (data.length > 0) {
+                    data.forEach(member => {
+                        let listItem = document.createElement('li');
+                        listItem.innerHTML = `<strong>${member.fname} ${member.lname}</strong> - ${member.role}`;
+                        teamList.appendChild(listItem);
+                    });
+                } else {
+                    teamList.innerHTML = '<li>No team members added yet.</li>'; // Show a message if no members
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching team members:', error);
+            });
+        }
+
+        // Fetch events for the logged-in user
+function fetchUserEvents() {
+    fetch('fetch_events.php') // Create this PHP file to return the user's events
+        .then(response => response.json())
+        .then(data => {
+            let eventSelect = document.getElementById('event_id');
+            eventSelect.innerHTML = ''; // Clear existing options
+            eventSelect.innerHTML += '<option value="" disabled selected>Select Event</option>'; // Placeholder
+
+            data.forEach(event => {
+                eventSelect.innerHTML += `<option value="${event.id}">${event.event_name}</option>`;
+            });
+        });
+}
+
+// Fetch user events on page load
+window.onload = function() {
+    fetchUserEvents();
+    fetchTeamMembers(); // Ensure this remains to fetch team members
+};
+    </script>
+</body>
+</html>

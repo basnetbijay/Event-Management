@@ -15,7 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($stmt->execute()) {
             // Redirect to index page on successful signup
-            header("Location: ../index.php");
+            header("Location: /eventMgmt/src/loginsignup/login.php");
+            
             exit();
         } else {
             throw new Exception("Failed to execute statement.");

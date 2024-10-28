@@ -1,20 +1,30 @@
 <?php
-require "../../includes/header.php";
+//require '../../includes/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up - ThriftIt</title>
+    <title>Sign Up - Event Management</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+         body {
+            background: url("../../images/app/back.jpg") no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+    </style>
 </head>
 <body>
     <div class="bodylog">
     <div class="container">
         <div class="content-box">
             <div class="info-box">
-                <img src="/images/app/loginbanner.png" alt="loginsignupbanner" class="info-image">
-                <p class="info-text">Welcome to ThriftIt</p>
+                <img src="../../images/app/backgroundEvent.jpg" alt="loginsignupbanner" class="info-image">
+                <p class="info-text">Welcome to Entertainment</p>
             </div>
             <div class="login-box">
                 <div class="login-header">

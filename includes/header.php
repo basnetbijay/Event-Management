@@ -1,6 +1,6 @@
 <?php
-require_once '/ShwetaProgramming/Thrift_It/db/db.php';
-require_once '/ShwetaProgramming/Thrift_It/utils/auth.php';
+require '/xampp/htdocs/eventMgmt/db/db.php';
+require_once '/xampp/htdocs/eventMgmt/utils/auth.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,6 +11,107 @@ if (session_status() == PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/includes/styles.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.search-bar form {
+    display: flex;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 600px; /* Increased width for the search bar */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    margin-left: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; 
+    box-sizing: border-box;
+
+}
+
+.nav-link.sell {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #fff;
+    position: relative; 
+}
+
+
+.nav-link.sell:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.nav-link.signup {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.nav-link.signup:hover {
+    background-color: #fff;
+    color: #000;
+}
+.divider {
+    font-size: 30px;
+    color: #fff; 
+    margin: 0 10px; 
+}
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+    </style>
 </head>
 <body>
     <div class="header">

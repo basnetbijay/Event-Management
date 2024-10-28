@@ -1,0 +1,31 @@
+.event-list {
+    margin-top: 20px;
+}
+
+.event-item {
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.event-item h2 {
+    margin-top: 0;
+}
+
+.event-item p {
+    margin: 5px 0;
+}
+
+.event-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.event-item a:hover {
+    text-decoration: underline;
+}
+#event-date{
+    padding: 10px;
+}
