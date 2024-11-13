@@ -74,12 +74,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Participation</title>
+    <title> Participants Registration</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Event Registration</h1>
+        <h1>Participants Registration</h1>
         <form id="registrationForm"  method="POST" enctype="multipart/form-data">
 
             <div class="form-group">

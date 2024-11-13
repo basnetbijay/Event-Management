@@ -449,7 +449,9 @@ $result = $conn->query($sql);
             </section style="margin-right: 20px;">
 
             <?php
+           if (isset($_SESSION['email'])) {
             $email = $_SESSION['email'];
+           } 
 
             // Function to get user event categories
             function getUserEventCategories($conn, $email) {

@@ -41,6 +41,19 @@ try {
         echo "No approved events found.";
     }
 
+    // Query to select rejected events
+    $rejectedStmt = $pdo->prepare("SELECT event_name, email FROM events WHERE status = 'rejected'");
+    $rejectedStmt->execute();
+    $rejectedEvents = $rejectedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Notify users about rejected events
+    foreach ($rejectedEvents as $event) {
+        if (!notificationExists($pdo, $event['email'], $event['event_name'])) {
+            sendRejectionEmail($event['email'], $event['event_name']);
+            recordNotification($pdo, $event['email'], $event['event_name']);
+        }
+    }
+
 } catch (PDOException $e) {
     echo 'Database Error: ' . $e->getMessage();
 }
@@ -60,28 +73,26 @@ function recordNotification($pdo, $email, $eventName) {
 
 // Function to send an approval email using PHPMailer
 function sendApprovalEmail($email, $eventName) {
-    $mail = new PHPMailer(true);  // Create a new instance of PHPMailer
+    $mail = new PHPMailer(true);
 
     try {
         // Server settings (using your college email SMTP configuration)
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';               // SMTP server (Gmail)
-        $mail->SMTPAuth   = true;                           // Enable SMTP authentication
-        $mail->Username   = 'bijay.077bca005@acem.edu.np'; // Your college email
-        $mail->Password   = 'wildanimals@2021';             // Your email password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
-        $mail->Port       = 587;                            // TCP port (587 for TLS)
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'bijay.077bca005@acem.edu.np';
+        $mail->Password   = 'wildanimals@2021';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
         // Recipients
-        $mail->setFrom('bijay.077bca005@acem.edu.np', 'Event Management System'); // Sender's email and name
-        $mail->addAddress($email);   // Add the recipient's email
+        $mail->setFrom('bijay.077bca005@acem.edu.np', 'Event Management System');
+        $mail->addAddress($email);
 
         // Email content
-        $mail->isHTML(true); // Set email format to HTML
-        $mail->Subject = 'New Event Organized'; // Subject of the email
-        $mail->Body    = "
-            <p>New event <strong>{$eventName}</strong> is going to be organized. Please check the website for more details.</p>
-        ";
+        $mail->isHTML(true);
+        $mail->Subject = 'New Event Organized';
+        $mail->Body    = "<p>New event <strong>{$eventName}</strong> is going to be organized. Please check the website for more details.</p>";
         $mail->AltBody = "New event '{$eventName}' is going to be organized. Please check the website for more details.";
 
         // Send the email
@@ -91,3 +102,37 @@ function sendApprovalEmail($email, $eventName) {
         echo "Email could not be sent to {$email}. Mailer Error: {$mail->ErrorInfo}<br>";
     }
 }
+
+// Function to send a rejection email
+function sendRejectionEmail($email, $eventName) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'bijay.077bca005@acem.edu.np';
+        $mail->Password   = 'wildanimals@2021';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Recipients
+        $mail->setFrom('bijay.077bca005@acem.edu.np', 'Event Management System');
+        $mail->addAddress($email);
+
+        // Email content
+        $mail->isHTML(true);
+        $mail->Subject = 'Event Rejection Notice';
+        $mail->Body    = "<p>We regret to inform you that the event <strong>{$eventName}</strong> has been rejected. Please contact support for more information.</p>";
+        $mail->AltBody = "We regret to inform you that the event '{$eventName}' has been rejected. Please contact support for more information.";
+
+        // Send the email
+        $mail->send();
+        echo "Rejection email sent to {$email} for event '{$eventName}'.<br>";
+    } catch (Exception $e) {
+        echo "Email could not be sent to {$email}. Mailer Error: {$mail->ErrorInfo}<br>";
+    }
+}
+// Redirect back to the admin page (you can modify this to fit your page structure)
+//header("Location: /eventMgmt/admin/admin.php");

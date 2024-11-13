@@ -167,10 +167,7 @@ $result = $conn->query($sql);
                     echo "<option value='approved' " . ($row['status'] == 'approved' ? "selected" : "") . ">Approved</option>";
                     echo "<option value='rejected' " . ($row['status'] == 'rejected' ? "selected" : "") . ">Rejected</option>";
                     echo "</select>";
-                    echo "<form action='sendApprovalEmails2.php' method='POST'>
-                    <button type='submit'>Update</button>
-                  </form>";
-            
+                    echo "<button type='submit'>Update</button>";
                     echo "</form>";
                     echo "</td>";
 
@@ -197,7 +194,6 @@ $result = $conn->query($sql);
             }
             ?>
 <!-- sending the notification on rejection -->
-
 
 
         </tbody>
