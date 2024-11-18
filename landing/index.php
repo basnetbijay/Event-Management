@@ -447,105 +447,183 @@ $result = $conn->query($sql);
                     </div>
                 </div>
             </section style="margin-right: 20px;">
-
-            <?php
-           if (isset($_SESSION['email'])) {
-            $email = $_SESSION['email'];
-           } 
-
-            // Function to get user event categories
-            function getUserEventCategories($conn, $email) {
-                $categories = [];
-                $sql = "SELECT e.category FROM registrations r JOIN events e ON r.event = e.id WHERE r.email = ?";
-                
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                
-                while ($row = $result->fetch_assoc()) {
-                    $categories[] = $row['category'];
-                }
-                
-                $stmt->close();
-                return array_unique($categories);
-            }
             
-            // Function to get events by category, excluding those already registered
-            function getEventsByCategory($conn, $email, $categories) {
-                $recommendations = [];
-                
-                // Prepare a placeholder string for the IN clause
-                $placeholders = implode(',', array_fill(0, count($categories), '?'));
-                
-                // // Query to fetch recommended events
-                // $sql = "SELECT id, event_name, event_picture, event_description FROM events WHERE category IN ($placeholders) AND id NOT IN (
-                //             SELECT event FROM registrations WHERE email = ?
-                //         )";
-                $sql = "SELECT e.id, e.event_name, e.event_picture, e.event_description, v.location 
-        FROM events e
-        JOIN venues v ON e.venue_id = v.id
-        WHERE e.category IN ($placeholders) 
-        AND e.id NOT IN (
-            SELECT event FROM registrations WHERE email = ?
-        )";
+<!-- content based filtering algorithm -->
+<?php
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+} 
 
-                
-                $stmt = $conn->prepare($sql);
-                
-                // Bind parameters
-                $types = str_repeat('s', count($categories)) . 's'; // e.g., 'sss'
-                $params = array_merge($categories, [$email]);
-                $stmt->bind_param($types, ...$params);
-                
-                $stmt->execute();
-                $result = $stmt->get_result();
-                
-                while ($row = $result->fetch_assoc()) {
-                    $recommendations[] = $row;
-                }
-                
-                $stmt->close();
-                return $recommendations;
-            }
-            
-            
-            // Get user event categories
-            $categories = getUserEventCategories($conn, $email);
-            
-            // Get recommended events based on user categories
-            if (!empty($categories)) {
-                $recommendedEvents = getEventsByCategory($conn, $email, $categories);
-            } else {
-                $recommendedEvents = [];
-            }
-            
-            $conn->close();
-            ?>
+// Function to get user event categories
+function getUserEventCategories($conn, $email) {
+    $categories = [];
+    $sql = "SELECT e.category FROM registrations r JOIN events e ON r.event = e.id WHERE r.email = ?";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row['category'];
+    }
+    
+    $stmt->close();
+    return array_unique($categories);
+}
 
-            <section class="section new" id="new">
-        <h2 class="section__title">Recommended Events</h2>
+// Function to get all available categories in the events table
+function getAllCategories($conn) {
+    $categories = [];
+    $sql = "SELECT DISTINCT category FROM events";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row['category'];
+    }
+    
+    $stmt->close();
+    return $categories;
+}
 
-        <div class="new__container container">
-            <div class="swiper new-swiper">
-                <div class="swiper-wrapper">
-                    <?php
-                    if (!empty($recommendedEvents)) {
-                        foreach ($recommendedEvents as $event) {
-                            $image_path = htmlspecialchars($event['event_picture']);
-                            echo '<div class="new__content swiper-slide">';
-                            echo '<img src="/eventMgmt/EventSubmission/' . $image_path . '" alt="Event Image" class="new__img">';
-                            echo '<h3 class="new__title">' . htmlspecialchars($event['event_name']) . '</h3>';
-                            echo '<span class="new__subtitle">' . htmlspecialchars($event['event_description']) . '</span>';
-                          //  echo '<span class="new__location">Location: ' . htmlspecialchars($row['location']) . '</span>';
-                            echo '</div>';
-                        }
-                    } else {
+// Function to calculate cosine similarity
+function cosineSimilarity($vecA, $vecB) {
+    $dotProduct = 0;
+    $magnitudeA = 0;
+    $magnitudeB = 0;
+
+    $allTerms = array_unique(array_merge(array_keys($vecA), array_keys($vecB)));
+
+    foreach ($allTerms as $term) {
+        $a = isset($vecA[$term]) ? $vecA[$term] : 0;  
+        $b = isset($vecB[$term]) ? $vecB[$term] : 0;
+
+        $dotProduct += $a * $b;
+        $magnitudeA += pow($a, 2);
+        $magnitudeB += pow($b, 2);
+    }
+
+    $magnitudeA = sqrt($magnitudeA);
+    $magnitudeB = sqrt($magnitudeB);
+
+    return ($magnitudeA * $magnitudeB == 0) ? 0 : $dotProduct / ($magnitudeA * $magnitudeB);
+}
+
+// Function to create category vector for an event if  yes 1 or 0
+function createCategoryVector($eventCategories, $allCategories) {
+    $vector = [];
+    foreach ($allCategories as $category) {
+        $vector[$category] = in_array($category, $eventCategories) ? 1 : 0;
+    }
+    return $vector;
+}
+
+// Function to get recommended events based on user categories
+function getRecommendedEvents($conn, $email) {
+    // Get user categories
+    $userCategories = getUserEventCategories($conn, $email);
+    if (empty($userCategories)) {
+        return [];
+    }
+
+    // Get all categories from the events
+    $allCategories = getAllCategories($conn);
+    
+    // Create a category vector for the user
+    $userVector = createCategoryVector($userCategories, $allCategories);
+
+    // Fetch all events
+    $sql = "SELECT id, event_name, event_picture, event_description, category FROM events WHERE id NOT IN (
+        SELECT event FROM registrations WHERE email = ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $recommendations = [];
+
+    // Calculate cosine similarity for each event
+    while ($row = $result->fetch_assoc()) {
+        $eventCategories = [$row['category']];
+        $eventVector = createCategoryVector($eventCategories, $allCategories);
+        
+        // Calculate similarity with user's category vector
+        $similarity = cosineSimilarity($userVector, $eventVector);
+
+        // Add to recommendations if similarity is above a threshold
+        if ($similarity >0.5) {  // You can adjust this threshold
+            $row['similarity'] = $similarity;
+            $recommendations[] = $row;
+        }
+    }
+
+    $stmt->close();
+
+    // Sort events by similarity (highest first)
+    usort($recommendations, function($a, $b) {
+        return $b['similarity'] - $a['similarity'];
+    });
+
+    return $recommendations;
+}
+
+// Get recommended events based on user categories
+$recommendedEvents = getRecommendedEvents($conn, $email);
+
+$conn->close();
+?>
+
+<section class="section new" id="new">
+    <h2 class="section__title">Recommended Events</h2>
+
+    <div class="new__container container">
+        <div class="swiper new-swiper">
+            <div class="swiper-wrapper">
+                <?php
+                if (!empty($recommendedEvents)) {
+                    foreach ($recommendedEvents as $event) {
+                        $image_path = htmlspecialchars($event['event_picture']);
                         echo '<div class="new__content swiper-slide">';
-                        echo '<span class="new__subtitle">No recommended events available based on your interests.</span>';
+                        echo '<img src="/eventMgmt/EventSubmission/' . $image_path . '" alt="Event Image" class="new__img">';
+                        echo '<h3 class="new__title">' . htmlspecialchars($event['event_name']) . '</h3>';
+                        echo '<span class="new__subtitle">' . htmlspecialchars($event['event_description']) . '</span>';
+                        echo '<span class="new__category">Category: ' . htmlspecialchars($event['category']) . '</span>';
+                     //   echo '<span class="new__similarity">Similarity: ' . round($event['similarity'], 2) . '</span>';
                         echo '</div>';
                     }
-                    ?>
+                } else {
+                    echo '<div class="new__content swiper-slide">';
+                    echo '<span class="new__subtitle">No recommended events available based on your interests.</span>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+            </div>
+        </div>
+    </div>
+</section>
+            </div>
+        </div>
+    </div>
+</section>
+
                 </div>
             </div>
         </div>
